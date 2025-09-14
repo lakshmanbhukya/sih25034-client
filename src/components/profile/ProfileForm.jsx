@@ -24,9 +24,8 @@ const ProfileForm = ({ onProfileUpdate }) => {
   ];
 
   const sectorSuggestions = [
-    'Technology', 'Healthcare', 'Finance', 'Education', 'Marketing',
-    'Sales', 'Human Resources', 'Engineering', 'Design', 'Media',
-    'Non-profit', 'Government', 'Retail', 'Manufacturing', 'Consulting'
+    'Marketing', 'Consulting', 'Finance', 'Retail', 'Manufacturing',
+    'Healthcare', 'Media', 'Education', 'Agriculture', 'Technology'
   ];
 
   const handleInputChange = (field, value) => {
@@ -172,7 +171,7 @@ const ProfileForm = ({ onProfileUpdate }) => {
               type="text"
               value={newSkill}
               onChange={(e) => setNewSkill(e.target.value)}
-              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
               placeholder="Add a skill"
               disabled={loading}
             />
@@ -245,7 +244,7 @@ const ProfileForm = ({ onProfileUpdate }) => {
               type="text"
               value={newSector}
               onChange={(e) => setNewSector(e.target.value)}
-              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
               placeholder="Add an industry"
               disabled={loading}
             />
@@ -289,16 +288,20 @@ const ProfileForm = ({ onProfileUpdate }) => {
             <GraduationCap className="inline h-5 w-5 mr-2" />
             What is your highest education level?
           </label>
-          <input
-            type="text"
+          <select
             value={formData.education}
             onChange={(e) => handleEducationChange(e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
-            placeholder="e.g., 12th Pass, B.Tech, B.Com, M.A, etc."
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             disabled={loading}
-          />
+          >
+            <option value="">Select your education level</option>
+            <option value="10th">10th Pass</option>
+            <option value="12th">12th Pass</option>
+            <option value="diploma">Diploma</option>
+            <option value="graduate">Graduate</option>
+          </select>
           <p className="mt-1 text-sm text-gray-500">
-            Tell us about your education in simple terms
+            Select your highest completed education level
           </p>
         </div>
 
@@ -310,12 +313,30 @@ const ProfileForm = ({ onProfileUpdate }) => {
           </label>
           <input
             type="text"
+            list="locations"
             value={formData.location}
             onChange={(e) => handleInputChange('location', e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder="Enter your city (e.g., Mumbai, Delhi, Bangalore)"
             disabled={loading}
           />
+          <datalist id="locations">
+            <option value="Bangalore" />
+            <option value="Ahmedabad" />
+            <option value="Vadodara" />
+            <option value="Coimbatore" />
+            <option value="Delhi" />
+            <option value="Kolkata" />
+            <option value="Chennai" />
+            <option value="Bhopal" />
+            <option value="Indore" />
+            <option value="Mumbai" />
+            <option value="Lucknow" />
+            <option value="Hyderabad" />
+            <option value="Pune" />
+            <option value="Kochi" />
+            <option value="Jaipur" />
+          </datalist>
           <p className="mt-1 text-sm text-gray-500">
             This helps us find internships near you
           </p>
