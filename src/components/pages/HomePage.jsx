@@ -77,23 +77,36 @@ const HomePage = ({ onPageChange }) => {
   return (
     <div className="max-w-7xl mx-auto">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-50 to-indigo-100 py-16 px-6">
-        <div className="text-center max-w-4xl mx-auto">
-          <h1 className="text-5xl font-bold text-gray-900 mb-6">
+      <section className="relative bg-gradient-to-br from-primary-50 via-white to-brand-50 py-20 px-6 overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-bounce-gentle"></div>
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-brand-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-bounce-gentle" style={{animationDelay: '1s'}}></div>
+        </div>
+        
+        <div className="relative text-center max-w-5xl mx-auto">
+          <div className="inline-flex items-center bg-primary-100 text-primary-700 px-4 py-2 rounded-full text-sm font-semibold mb-6 animate-fade-in">
+            <span className="w-2 h-2 bg-primary-500 rounded-full mr-2 animate-pulse"></span>
+            🚀 Launch Your Career Journey
+          </div>
+          
+          <h1 className="text-6xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight">
             Find Your Perfect
-            <span className="text-blue-600"> Internship</span>
+            <span className="gradient-text block"> Dream Internship</span>
           </h1>
-          <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-            Discover amazing internship opportunities that match your skills and career goals. 
-            Get personalized recommendations and apply with confidence.
+          
+          <p className="text-xl md:text-2xl text-gray-600 mb-10 leading-relaxed max-w-3xl mx-auto">
+            Discover amazing internship opportunities tailored to your skills and aspirations. 
+            Join thousands of students who found their perfect match.
           </p>
           
           {isAuthenticated ? (
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
               <Button
                 onClick={() => onPageChange('recommendations')}
-                size="lg"
-                className="text-lg px-8 py-3"
+                variant="gradient"
+                size="xl"
+                className="shadow-xl"
               >
                 <Target className="h-5 w-5 mr-2" />
                 View My Recommendations
@@ -101,43 +114,63 @@ const HomePage = ({ onPageChange }) => {
               <Button
                 onClick={() => onPageChange('internships')}
                 variant="outline"
-                size="lg"
-                className="text-lg px-8 py-3"
+                size="xl"
               >
                 <Briefcase className="h-5 w-5 mr-2" />
                 Browse All Internships
               </Button>
             </div>
           ) : (
-            <div className="text-center">
-              <p className="text-lg text-gray-600 mb-4">
-                Ready to start your internship journey?
+            <div className="space-y-6">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <Button
+                  onClick={() => onPageChange('auth')}
+                  variant="gradient"
+                  size="xl"
+                  className="shadow-xl group"
+                >
+                  Get Started Free
+                  <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Button>
+                <Button
+                  onClick={() => onPageChange('internships')}
+                  variant="outline"
+                  size="xl"
+                >
+                  <Briefcase className="h-5 w-5 mr-2" />
+                  Explore Internships
+                </Button>
+              </div>
+              <p className="text-sm text-gray-500">
+                ✨ No credit card required • Join 10,000+ students
               </p>
-              <Button
-                onClick={() => onPageChange('auth')}
-                size="lg"
-                className="text-lg px-8 py-3"
-              >
-                Get Started Now
-                <ArrowRight className="h-5 w-5 ml-2" />
-              </Button>
             </div>
           )}
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-white">
+      <section className="py-20 bg-white relative">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Trusted by Students Worldwide
+            </h2>
+            <p className="text-lg text-gray-600">
+              Join our growing community of successful interns
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {stats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-4xl font-bold text-blue-600 mb-2">
+              <div key={index} className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 text-center shadow-soft hover:shadow-medium transition-all duration-300 card-hover border border-gray-100">
+                <div className="text-4xl md:text-5xl font-bold gradient-text mb-3">
                   {stat.number}
                 </div>
-                <div className="text-gray-600 font-medium">
+                <div className="text-gray-600 font-semibold text-sm md:text-base">
                   {stat.label}
                 </div>
+                <div className="w-12 h-1 bg-gradient-to-r from-primary-400 to-brand-400 rounded-full mx-auto mt-3"></div>
               </div>
             ))}
           </div>
@@ -145,14 +178,17 @@ const HomePage = ({ onPageChange }) => {
       </section>
 
       {/* Features Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Why Choose Our Platform?
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center bg-primary-100 text-primary-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+              ✨ Platform Features
+            </div>
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">
+              Why Choose InternshipHub?
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              We make finding the right internship simple and efficient
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Experience the most advanced internship matching platform designed for modern students
             </p>
           </div>
           
@@ -160,16 +196,21 @@ const HomePage = ({ onPageChange }) => {
             {features.map((feature, index) => {
               const Icon = feature.icon;
               return (
-                <div key={index} className="bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow">
-                  <div className={`inline-flex items-center justify-center w-12 h-12 rounded-lg ${feature.bgColor} mb-4`}>
-                    <Icon className={`h-6 w-6 ${feature.color}`} />
+                <div key={index} className="group bg-white rounded-2xl p-8 shadow-soft hover:shadow-strong transition-all duration-300 card-hover border border-gray-100 relative overflow-hidden">
+                  {/* Background gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-transparent to-gray-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  
+                  <div className="relative z-10">
+                    <div className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl ${feature.bgColor} mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                      <Icon className={`h-7 w-7 ${feature.color}`} />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary-700 transition-colors">
+                      {feature.title}
+                    </h3>
+                    <p className="text-gray-600 leading-relaxed">
+                      {feature.description}
+                    </p>
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    {feature.title}
-                  </h3>
-                  <p className="text-gray-600 text-sm">
-                    {feature.description}
-                  </p>
                 </div>
               );
             })}
