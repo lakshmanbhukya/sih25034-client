@@ -15,6 +15,7 @@ import LoadingSpinner from './components/common/LoadingSpinner';
 const AppContent = () => {
   const { isAuthenticated, loading } = useAuth();
   const [currentPage, setCurrentPage] = useState('home');
+  const [authMode, setAuthMode] = useState('login');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Close mobile menu when page changes
@@ -30,8 +31,11 @@ const AppContent = () => {
     }
   }, [isAuthenticated, currentPage]);
 
-  const handlePageChange = (page) => {
+  const handlePageChange = (page, options = {}) => {
     setCurrentPage(page);
+    if (page === 'auth' && options.mode) {
+      setAuthMode(options.mode);
+    }
   };
 
   const handleMobileMenuToggle = () => {
@@ -40,8 +44,17 @@ const AppContent = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <LoadingSpinner size="xlarge" text="Loading your internship finder..." />
+      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-brand-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="mb-8">
+            <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+              <span className="text-white font-bold text-2xl">🎓</span>
+            </div>
+            <h2 className="text-2xl font-bold gradient-text mb-2">InternshipHub</h2>
+            <p className="text-gray-600">Preparing your experience...</p>
+          </div>
+          <LoadingSpinner size="large" text="Loading your internship finder..." />
+        </div>
       </div>
     );
   }
@@ -50,7 +63,7 @@ const AppContent = () => {
   if (!isAuthenticated && currentPage !== 'home') {
     return (
       <ErrorBoundary>
-        <AuthPage />
+        <AuthPage initialMode={authMode} onBack={() => handlePageChange('home')} />
         <AccessibilityHelper />
       </ErrorBoundary>
     );
@@ -61,7 +74,7 @@ const AppContent = () => {
       case 'home':
         return <HomePage onPageChange={handlePageChange} />;
       case 'auth':
-        return <AuthPage />;
+        return <AuthPage initialMode={authMode} onBack={() => handlePageChange('home')} />;
       case 'profile':
         return <ProfileForm onProfileUpdate={() => setCurrentPage('recommendations')} />;
       case 'recommendations':
