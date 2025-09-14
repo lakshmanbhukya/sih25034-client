@@ -130,7 +130,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
               name="username"
               value={formData.username}
               onChange={handleChange}
-              className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg ${
+              className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                 validationErrors.username ? 'border-red-500' : 'border-gray-300'
               }`}
               placeholder="Choose a username"
@@ -158,7 +158,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg ${
+              className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                 validationErrors.email ? 'border-red-500' : 'border-gray-300'
               }`}
               placeholder="Enter your email address"
@@ -186,7 +186,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg ${
+              className={`w-full pl-10 pr-12 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                 validationErrors.password ? 'border-red-500' : 'border-gray-300'
               }`}
               placeholder="Create a password"
@@ -222,7 +222,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
-              className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg ${
+              className={`w-full pl-10 pr-12 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                 validationErrors.confirmPassword ? 'border-red-500' : 'border-gray-300'
               }`}
               placeholder="Confirm your password"
