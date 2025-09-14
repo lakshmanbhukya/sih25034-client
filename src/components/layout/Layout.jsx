@@ -10,7 +10,7 @@ const Layout = ({
   isMobileMenuOpen 
 }) => {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 via-white to-primary-50/30">
       <Header
         currentPage={currentPage}
         onPageChange={onPageChange}
@@ -18,7 +18,7 @@ const Layout = ({
         isMobileMenuOpen={isMobileMenuOpen}
       />
       
-      <main className="flex-1">
+      <main className="flex-1 page-transition">
         {children}
       </main>
       
