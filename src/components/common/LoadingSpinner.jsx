@@ -5,34 +5,47 @@ const LoadingSpinner = ({
   text = 'Loading...', 
   showText = true,
   className = '',
-  color = 'blue'
+  color = 'primary'
 }) => {
   const sizeClasses = {
-    small: 'h-4 w-4',
-    medium: 'h-8 w-8',
-    large: 'h-12 w-12',
-    xlarge: 'h-16 w-16'
+    small: 'h-6 w-6',
+    medium: 'h-10 w-10',
+    large: 'h-16 w-16',
+    xlarge: 'h-20 w-20'
   };
 
-  const colorClasses = {
-    blue: 'border-blue-600',
-    gray: 'border-gray-600',
-    white: 'border-white',
-    primary: 'border-primary'
+  const dotSizes = {
+    small: 'w-1.5 h-1.5',
+    medium: 'w-2 h-2',
+    large: 'w-3 h-3',
+    xlarge: 'w-4 h-4'
   };
 
   return (
     <div className={`flex flex-col items-center justify-center ${className}`} role="status" aria-label={text}>
-      <div 
-        className={`animate-spin rounded-full border-4 border-gray-200 ${colorClasses[color]} ${sizeClasses[size]} spinner-enhanced`}
-        style={{
-          borderTopColor: 'transparent',
-          borderRightColor: 'transparent',
-          borderBottomColor: 'transparent'
-        }}
-      ></div>
+      {/* Modern layered spinner */}
+      <div className="relative">
+        <div className={`${sizeClasses[size]} border-4 border-gray-200 rounded-full`}></div>
+        <div className={`${sizeClasses[size]} border-4 border-transparent border-t-primary-500 rounded-full animate-spin absolute top-0 left-0`}></div>
+        <div className={`${sizeClasses[size]} border-4 border-transparent border-r-brand-400 rounded-full animate-spin absolute top-0 left-0`} style={{animationDirection: 'reverse', animationDuration: '1.5s'}}></div>
+      </div>
+      
+      {/* Animated dots */}
+      <div className="flex space-x-1 mt-4">
+        {[0, 1, 2].map((i) => (
+          <div
+            key={i}
+            className={`${dotSizes[size]} bg-primary-400 rounded-full animate-pulse`}
+            style={{
+              animationDelay: `${i * 0.2}s`,
+              animationDuration: '1s'
+            }}
+          ></div>
+        ))}
+      </div>
+      
       {showText && text && (
-        <p className="mt-3 text-sm text-gray-600 dark:text-gray-400 font-medium animate-pulse">{text}</p>
+        <p className="mt-4 text-sm text-gray-600 font-semibold animate-pulse">{text}</p>
       )}
       <span className="sr-only">{text}</span>
     </div>
