@@ -1,35 +1,117 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import Layout from './components/layout/Layout';
+import HomePage from './components/pages/HomePage';
+import AuthPage from './components/auth/AuthPage';
+import ProfileForm from './components/profile/ProfileForm';
+import RecommendationsPage from './components/internships/RecommendationsPage';
+import AllInternshipsPage from './components/internships/AllInternshipsPage';
+import InternshipDetailPage from './components/internships/InternshipDetailPage';
+import AccessibilityHelper from './components/common/AccessibilityHelper';
+import ErrorBoundary from './components/common/ErrorBoundary';
+import LoadingSpinner from './components/common/LoadingSpinner';
 
-function App() {
-  const [count, setCount] = useState(0)
+const AppContent = () => {
+  const { isAuthenticated, loading } = useAuth();
+  const [currentPage, setCurrentPage] = useState('home');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Close mobile menu when page changes
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [currentPage]);
+
+  // Redirect to auth if not authenticated and trying to access protected pages
+  useEffect(() => {
+    const protectedPages = ['recommendations', 'profile'];
+    if (!isAuthenticated && protectedPages.includes(currentPage)) {
+      setCurrentPage('auth');
+    }
+  }, [isAuthenticated, currentPage]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handleMobileMenuToggle = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <LoadingSpinner size="xlarge" text="Loading your internship finder..." />
+      </div>
+    );
+  }
+
+  // Show auth page if not authenticated
+  if (!isAuthenticated && currentPage !== 'home') {
+    return (
+      <ErrorBoundary>
+        <AuthPage />
+        <AccessibilityHelper />
+      </ErrorBoundary>
+    );
+  }
+
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'home':
+        return <HomePage onPageChange={handlePageChange} />;
+      case 'auth':
+        return <AuthPage />;
+      case 'profile':
+        return <ProfileForm onProfileUpdate={() => setCurrentPage('recommendations')} />;
+      case 'recommendations':
+        return <RecommendationsPage />;
+      case 'internships':
+        return <AllInternshipsPage />;
+      default:
+        return <HomePage onPageChange={handlePageChange} />;
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <ErrorBoundary>
+      <Router>
+        <Routes>
+          {/* Internship Detail Route */}
+          <Route 
+            path="/internships/:id" 
+            element={
+              <InternshipDetailPage />
+            } 
+          />
+          
+          {/* Main App Routes */}
+          <Route 
+            path="/*" 
+            element={
+              <Layout
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+                onMobileMenuToggle={handleMobileMenuToggle}
+                isMobileMenuOpen={isMobileMenuOpen}
+              >
+                {renderPage()}
+              </Layout>
+            } 
+          />
+        </Routes>
+        <AccessibilityHelper />
+      </Router>
+    </ErrorBoundary>
+  );
+};
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;

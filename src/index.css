@@ -2,6 +2,123 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Accessibility Features */
+.high-contrast {
+  --tw-bg-opacity: 1;
+  --tw-text-opacity: 1;
+}
+
+.high-contrast * {
+  background-color: white !important;
+  color: black !important;
+  border-color: black !important;
+}
+
+.high-contrast button {
+  background-color: black !important;
+  color: white !important;
+  border: 2px solid black !important;
+}
+
+.high-contrast button:hover {
+  background-color: white !important;
+  color: black !important;
+}
+
+.large-text {
+  font-size: 1.25rem;
+}
+
+.large-text h1 {
+  font-size: 3rem;
+}
+
+.large-text h2 {
+  font-size: 2.5rem;
+}
+
+.large-text h3 {
+  font-size: 2rem;
+}
+
+.large-text button {
+  padding: 1rem 2rem;
+  font-size: 1.25rem;
+}
+
+.large-text input {
+  padding: 1rem;
+  font-size: 1.25rem;
+}
+
+.reduced-motion * {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* Focus indicators for accessibility */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* High contrast focus indicators */
+.high-contrast button:focus-visible,
+.high-contrast input:focus-visible,
+.high-contrast select:focus-visible,
+.high-contrast textarea:focus-visible {
+  outline: 3px solid #000;
+  outline-offset: 2px;
+}
+
+/* Screen reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Skip links */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: #000;
+  color: #fff;
+  padding: 8px;
+  text-decoration: none;
+  z-index: 1000;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+/* Line clamp utility */
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -64,5 +181,53 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Custom spinner animations */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Enhanced spinner styles */
+.spinner-enhanced {
+  position: relative;
+}
+
+.spinner-enhanced::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  border: 4px solid transparent;
+  border-top-color: currentColor;
+  animation: spin 1s linear infinite;
+}
+
+/* Reduced motion support for spinner */
+@media (prefers-reduced-motion: reduce) {
+  .animate-spin {
+    animation: none;
+  }
+  
+  .spinner-enhanced::before {
+    animation: none;
   }
 }
