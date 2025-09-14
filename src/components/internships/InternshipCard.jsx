@@ -20,41 +20,51 @@ const InternshipCard = ({ internship, onApply }) => {
   const getModeColor = (mode) => {
     switch (mode?.toLowerCase()) {
       case 'remote':
-        return 'bg-green-100 text-green-800';
+        return 'bg-success-100 text-success-800 border border-success-200';
       case 'hybrid':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-warning-100 text-warning-800 border border-warning-200';
       case 'onsite':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-primary-100 text-primary-800 border border-primary-200';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-gray-100 text-gray-800 border border-gray-200';
     }
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-shadow duration-300">
-      {/* Header */}
-      <div className="flex justify-between items-start mb-4">
-        <div className="flex-1">
-          <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2">
-            {internship.title || 'Internship Position'}
-          </h3>
-          <div className="flex items-center text-gray-600 mb-2">
-            <Building className="h-4 w-4 mr-2" />
-            <span className="font-medium">{internship.company_name || 'Company Name'}</span>
+    <div className="bg-white rounded-2xl shadow-soft border border-gray-100 p-6 hover:shadow-strong transition-all duration-300 card-hover group relative overflow-hidden">
+      {/* Background gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-primary-50/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      
+      <div className="relative z-10">
+        {/* Header */}
+        <div className="flex justify-between items-start mb-6">
+          <div className="flex-1">
+            <div className="flex items-center mb-3">
+              <div className="w-12 h-12 bg-gradient-to-br from-primary-100 to-primary-200 rounded-xl flex items-center justify-center mr-4 group-hover:scale-105 transition-transform">
+                <Building className="h-6 w-6 text-primary-600" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 line-clamp-2 group-hover:text-primary-700 transition-colors">
+                  {internship.title || 'Internship Position'}
+                </h3>
+                <p className="text-gray-600 font-semibold">
+                  {internship.company_name || 'Company Name'}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col items-end space-y-2">
+            <span className={`px-4 py-2 rounded-xl text-sm font-semibold shadow-sm ${getModeColor(internship.mode)}`}>
+              {internship.mode || 'Not specified'}
+            </span>
+            {internship.certificate_provided && (
+              <span className="flex items-center bg-success-50 text-success-700 px-3 py-1 rounded-lg text-sm font-medium">
+                <Award className="h-4 w-4 mr-1" />
+                Certificate
+              </span>
+            )}
           </div>
         </div>
-        <div className="flex flex-col items-end space-y-2">
-          <span className={`px-3 py-1 rounded-full text-sm font-medium ${getModeColor(internship.mode)}`}>
-            {internship.mode || 'Not specified'}
-          </span>
-          {internship.certificate_provided && (
-            <span className="flex items-center text-green-600 text-sm">
-              <Award className="h-4 w-4 mr-1" />
-              Certificate
-            </span>
-          )}
-        </div>
-      </div>
 
       {/* Description */}
       {internship.description && (
@@ -159,27 +169,28 @@ const InternshipCard = ({ internship, onApply }) => {
         )}
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex flex-col sm:flex-row gap-3">
-        {internship.application_link && (
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t border-gray-100">
+          {internship.application_link && (
+            <Button
+              onClick={() => onApply && onApply(internship)}
+              variant="gradient"
+              className="flex-1 shadow-md"
+            >
+              <ExternalLink className="h-4 w-4 mr-2" />
+              Apply Now
+            </Button>
+          )}
           <Button
-            onClick={() => onApply && onApply(internship)}
-            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+            variant="outline"
+            className="flex-1"
+            onClick={() => {
+              console.log('View details for:', internship.title);
+            }}
           >
-            <ExternalLink className="h-4 w-4 mr-2" />
-            Apply Now
+            View Details
           </Button>
-        )}
-        <Button
-          variant="outline"
-          className="flex-1"
-          onClick={() => {
-            // You could implement a "Save" or "View Details" functionality
-            console.log('View details for:', internship.title);
-          }}
-        >
-          View Details
-        </Button>
+        </div>
       </div>
     </div>
   );
