@@ -38,17 +38,37 @@ class ApiService {
       ...options,
     };
 
+    console.log('🌐 API Request:', {
+      url,
+      method: config.method || 'GET',
+      headers: config.headers,
+      hasBody: !!config.body
+    });
+
     try {
       const response = await fetch(url, config);
+      
+      console.log('📡 API Response:', {
+        status: response.status,
+        statusText: response.statusText,
+        ok: response.ok
+      });
+      
       const data = await response.json();
 
       if (!response.ok) {
+        console.error('❌ API Error Response:', data);
         throw new Error(data.error || `HTTP error! status: ${response.status}`);
       }
 
+      console.log('✅ API Success Response:', data);
       return data;
     } catch (error) {
-      console.error('API Request failed:', error);
+      console.error('❌ API Request failed:', {
+        url,
+        error: error.message,
+        stack: error.stack
+      });
       throw error;
     }
   }
